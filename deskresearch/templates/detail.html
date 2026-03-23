@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>토이 프로젝트</title>
+  </head>
+  <body>
+    <!--이 밑에 정보를 표시하세요.-->
+    <h3>{{post.title}}</h3>
+    {{post.created_at}}
+    <br />
+    {{post.content}}
+    <!--이 위에 정보를 표시하세요.-->
+
+    <a href="{% url 'deskresearch:home' %}">목록으로</a>
+    <a href="{% url 'deskresearch:delete' post.id %}">삭제하기</a>
+    <a href="{% url 'deskresearch:update_page' post.id %}">수정하기</a>
+  </body>
+</html>
