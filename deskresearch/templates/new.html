@@ -15,9 +15,7 @@
     <form action="{% url 'deskresearch:create' %}" method="post" enctype="multipart/form-data">
 
         {% csrf_token %}
-        <p>제목: <input type="text" name="title"></p>
-        본문 : <textarea name="content" cols="30" rows="10"></textarea>
-
+        {{form.as_p}}
         <button type="submit">제출</button>
         
     </form>

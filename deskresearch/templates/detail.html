@@ -13,6 +13,7 @@
     {{post.content}}
     <!--이 위에 정보를 표시하세요.-->
 
+    <a href="{% url 'deskresearch:home' %}">목록으로</a>
     <a href="{% url 'deskresearch:delete' post.id %}">삭제하기</a>
     <a href="{% url 'deskresearch:update_page' post.id %}">수정하기</a>
   </body>
