@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>토이 프로젝트</title>
+  </head>
+  <body>
+    <ol>
+      <!--For문을 완성하세요.-->
+      <a href="{% url 'deskresearch:new' %}">새글 작성</a>
+
+      {% for post in Posts.all %} <!--post 소문자로 써야함-->
+      <li>
+      <h3>
+      <a href="{% url 'deskresearch:detail' post.id %}">{{post.title}}</a>
+      </h3>
+      </li>
+      <br />
+      {{post.created_at}}
+      <br />
+      {{post.content}}
+      {% endfor %}
+    </ol>
+  </body>
+</html>
