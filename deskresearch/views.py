@@ -5,7 +5,7 @@ from .forms import PostForm,Commentform
 
 def home(request):
     posts = Post.objects.order_by('-created_at')
-    return render(request,'home.html',{'Posts':posts})
+    return render(request,'home.html',{'posts':posts})
 
 def new(request):
     form=PostForm()

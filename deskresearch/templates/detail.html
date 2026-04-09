@@ -294,6 +294,11 @@
           {{ post.content }}
         </div>
 
+        {% if post.photo %}
+        <img src=" {{ post.photo.url }}" alt ="" height="400px;">
+        {% endif %}
+        <br>
+
         <!-- 해시태그 -->
         {% if post.hashtag.all %}
         <div class="hashtag-list">
