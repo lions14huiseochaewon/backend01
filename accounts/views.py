@@ -1,37 +1,23 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
-from accounts.forms import RegisterForm
+from django.shortcuts import render
+from django.http import HttpRequest
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import UserSerializer,UserLoginSerializer
 
 
-def login_view(request):
-    if request.method=='POST':
-         form=AuthenticationForm(request=request, data=request.POST)
-         if form.is_valid():
-            username=form.cleaned_data.get('username')
-            password=form.cleaned_data.get('password')
-            user=authenticate(request=request, username=username, password=password)
-            if user is not None:
-                login(request, user)
+class SignUpView(APIView):
+    def post(self, request:HttpRequest, format=None):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-                return redirect('deskresearch:home')
-         return render(request, 'login.html', {'form': form})
-    else:
-        form=AuthenticationForm()
-        return render(request, 'login.html', {'form':form})
-
-def logout_view(request):
-    logout(request)
-    return redirect('deskresearch:home')
-
-def signup_view(request):
-    if request.method=='POST':
-        form=RegisterForm(request.POST)
-        if form.is_valid():
-            user=form.save()
-            login(request,user)
-            return redirect('deskresearch:home')
-    else:
-        form=RegisterForm()
+class LoginView(APIView):
+    def post(self, request:HttpRequest, format = None):
+        serializer = UserLoginSerializer(data= request.data)
+        if serializer.is_valid():
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    return render(request,'signup.html',{'form':form})

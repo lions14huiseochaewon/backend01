@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Hashtag
+from .models import Post,Record
 
 admin.site.register(Post)
-admin.site.register(Comment)
-admin.site.register(Hashtag)
+admin.site.register(Record)

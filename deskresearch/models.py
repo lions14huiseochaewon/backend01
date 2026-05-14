@@ -1,31 +1,33 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
-class Hashtag(models.Model):
-    hashtag = models.CharField(max_length=100)
+RENTAL_AVAILABLITY = (
+    (1, "AVAILABLE"),
+    (2, "UNAVAILABLE"),
 
-    def __str__(self):
-        return self.hashtag
+)
+
+RENTAL_RECORD=(
+    (1, "RENTED"),
+    (2, "RETURNED"),
+    (3, "OVERDUE"),
+)
+
 
 class Post(models.Model):
-    title = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-    content = models.TextField(max_length=500)
-    photo = models.ImageField(blank=True, null=True, upload_to = "post_photo")
-    hashtag = models.ManyToManyField(Hashtag)
+    title = models.CharField(max_length=200)
+    date = models.DateTimeField(auto_now_add=True)
+    body = models.TextField()
+    photo = models.ImageField(blank=True, null=True,upload_to="post_photo")
+    rental = models.IntegerField(choices=RENTAL_AVAILABLITY,null=True, blank=True)
 
     def __str__(self):
         return self.title
-    #def 안에 써야함! 밖에썼더니 제목이 post object(1)이렇게 나옴..ㅎㅎ
 
-class Comment(models.Model):
-    post = models.ForeignKey(Post, related_name = 'comments',on_delete=models.CASCADE)
-    username= models.CharField(max_length=20)
-    comment_text = models.TextField()
+class Record(models.Model):
+    post=models.ForeignKey(Post,related_name='records', on_delete=models.CASCADE)
+    username = models.CharField(max_length=20)
+    record_text=models.IntegerField(choices=RENTAL_RECORD,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def approve(self):
-        self.save()
-        
     def __str__(self):
-        return self.comment_text
+        return f"{self.username} - {self.get_record_text_display()}"
