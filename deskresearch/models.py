@@ -17,6 +17,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
+    photo = models.ImageField(blank=True, null=True,upload_to="post_photo")
     rental = models.IntegerField(choices=RENTAL_AVAILABLITY,null=True, blank=True)
 
     def __str__(self):
